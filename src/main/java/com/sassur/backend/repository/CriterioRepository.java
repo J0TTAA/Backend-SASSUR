@@ -11,6 +11,6 @@ public interface CriterioRepository extends MongoRepository<CriterioDerivacion, 
     // Consultas personalizadas (por ejemplo, encontrar criterios por especialidad)
     List<CriterioDerivacion> findByEspecialidad(String especialidad);
 
-    // También puedes agregar más métodos para realizar consultas personalizadas
+    
     List<CriterioDerivacion> findByPatologia(String patologia);
 }

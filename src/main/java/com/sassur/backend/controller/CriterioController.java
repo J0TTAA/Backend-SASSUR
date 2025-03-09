@@ -2,6 +2,8 @@ package com.sassur.backend.controller;
 
 import com.sassur.backend.model.CriterioDerivacion;
 import com.sassur.backend.service.CriterioService;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +27,17 @@ public class CriterioController {
         return criterioService.getAllCriterios();
     }
 
-    // Obtener un criterio de derivación por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<CriterioDerivacion> getCriterioById(@PathVariable String id) {
-        CriterioDerivacion criterio = criterioService.getCriterioById(id);
-        if (criterio != null) {
-            return new ResponseEntity<>(criterio, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Si no lo encuentra, devuelve 404
+// Obtener un criterio de derivación por ID
+@GetMapping("/{id}")
+public ResponseEntity<CriterioDerivacion> getCriterioById(@PathVariable String id) {
+    CriterioDerivacion criterio = criterioService.getCriterioById(id);
+    if (criterio != null) {
+        return new ResponseEntity<>(criterio, HttpStatus.OK);
+    } else if (!ObjectId.isValid(id)) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);  // Si el ID no es válido
     }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Si no lo encuentra, devuelve 404
+}
 
     // Crear un nuevo criterio de derivación
     @PostMapping

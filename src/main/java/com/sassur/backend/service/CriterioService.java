@@ -2,6 +2,8 @@ package com.sassur.backend.service;
 
 import com.sassur.backend.model.CriterioDerivacion;
 import com.sassur.backend.repository.CriterioRepository;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +21,17 @@ public class CriterioService {
         return criterioRepository.findAll();
     }
 
-    // Obtener un criterio por ID
+   // Obtener un criterio de derivación por ID
     public CriterioDerivacion getCriterioById(String id) {
+        // Verificar si el ID es un ObjectId válido
+        if (!ObjectId.isValid(id)) {
+            // El ID no es válido
+            return null;
+        }
+
+        // Buscar el CriterioDerivacion en la base de datos usando el ID
         Optional<CriterioDerivacion> criterio = criterioRepository.findById(id);
-        return criterio.orElse(null);  // Retorna null si no lo encuentra
+        return criterio.orElse(null);  // Si no lo encuentra, retorna null
     }
 
     // Crear un nuevo criterio
